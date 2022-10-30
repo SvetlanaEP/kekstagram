@@ -31,3 +31,14 @@ function getRandomNumber(min, max) {
 }
 
 getRandomNumber();
+
+function checkStringLength(comment, maxStringLength) {
+  if (comment.length <= maxStringLength) {
+    console.log ('ок')
+    return true
+  }
+  console.log('не ок')
+  return false
+}
+
+checkStringLength('', 3)
