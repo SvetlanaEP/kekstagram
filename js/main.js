@@ -8,13 +8,8 @@ function getRandomPositiveInteger(a, b) {
 
 getRandomPositiveInteger(1, 7)
 
-function checkStringLength(comment, maxStringLength) {
-  if (comment.length <= maxStringLength) {
-    console.log ('ок')
-    return true
-  }
-  console.log('не ок')
-  return false
+function checkStringLength(string, length) {
+  return string.length <= length;
 }
 
 checkStringLength('', 3)
