@@ -1,7 +1,4 @@
 const POSTS_COUNT = 25; //Количество постов
-const COMMENTS_COUNT = 25 //Количество пользователей
-const MIN_LIKES = 15
-const MAX_LIKES = 200
 
 const description = [
   '',
@@ -10,11 +7,21 @@ const description = [
   'Все препятствия и трудности – это ступени, по которым мы растём ввысь',
   'Ауф',
   'что за красотка среди этой массовки',
-
+  'Скорей бы понедельник и снова на работу',
+  'Понедельник-пятница работаем',
+  'мяу мяу мяу мяу',
+  'Я вам запрещаю отдыхать',
+  'Почему каждый год люди пропадают на огородах?',
+  'Все говорят, картошка осенью 9 рублей, а ты вскопай огород',
+  'ты же мужик, работай',
+  'Кто прочитал, тот на работу',
+  'капец жмыхнуло',
+  'Доброе утро, пирожочек. Чисти зубки и на завод',
+  'А что, мужики? Что мы начальника подведем?',
+  'Зарплата 25 тыщ это реально',
 ]
 
 const comments = [
-  '',
   'Женихи толпами бегают',
   'Вашей маме зять не нужен?',
   'А ваши родители случайно не кондитеры?',
@@ -27,7 +34,7 @@ const comments = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!'
 ]
 
-const name = [
+const names = [
   'Corpuscle',
   'Mikhail',
   'P',
@@ -62,13 +69,13 @@ function checkStringLength(text, length) {
 }
 // Получить случайный элемент из массива
 
-function getArrayElement(elements) {
+function getRandomArrayElement(elements) {
   return elements[getRandomPositiveInteger(0, elements.length - 1)]
 }
 
 // Массив чисел перемешанный
 
-function getArrayRandomNumbers(length) {
+function shuffleArray(length) {
   // Массив с последовательными числами от 1
   const serialArray = Array.from({length: length}, (_, i) => i + 1)
 
@@ -76,39 +83,44 @@ function getArrayRandomNumbers(length) {
   return serialArray.map(i => [Math.random(), i]).sort().map(i => i[1])
 }
 
-function getSerialElement(array, i) {
-  return array[i]
+// Создание текста комментария
+
+function creatMessage() {
+  return Array.from({length: getRandomPositiveInteger(1, 2)}, () =>
+  getRandomArrayElement(comments)).join(' ')
 }
 
-function add0forNumber (array, i) {
-  if (array[i] <= 9) {
-      return '0' + array[i]
-  } return array[i]
+//Создание комментария
+
+function creatComment(index) {
+  return {
+    id: index,
+    avatar: 'img/avatar-' + getRandomPositiveInteger(1,6) + '.svg',
+    message: creatMessage(),
+    name: getRandomArrayElement(names)
+  }
 }
 
 // массив с постами
 
-function creatArrayPosts(postsCount, commentsCount) {
+function creatArrayPosts(postsCount) {
   const arrayPost = Array.from({length: postsCount})
+  const sequenceId = shuffleArray(postsCount)
 
   for (let i=0; i <= arrayPost.length-1; i++) {
     arrayPost[i] = {
-      id: getSerialElement(getArrayRandomNumbers(postsCount), i),
-      url: 'photos/' + add0forNumber(getArrayRandomNumbers(postsCount), i) + '.jpg',
-      description: getArrayElement(description),
-      likes: getRandomPositiveInteger(MIN_LIKES, MAX_LIKES),
-      comments: {
-        id: getSerialElement(getArrayRandomNumbers(commentsCount), i),
-        avatar: 'img/avatar-' + getRandomPositiveInteger(1,6),
-        message: getArrayElement(comments),
-        name: getArrayElement(name)
-      }
+      id: sequenceId[i],
+      url: 'photos/' + sequenceId[i] + '.jpg',
+      description: getRandomArrayElement(description),
+      likes: getRandomPositiveInteger(15, 200),
+      comments: Array.from({length: getRandomPositiveInteger(1, 6)},
+        (_, commentIndex) => creatComment(commentIndex + 1))
     }
   }
   return arrayPost
 }
 
-console.log(creatArrayPosts(POSTS_COUNT, COMMENTS_COUNT))
+console.log(creatArrayPosts(POSTS_COUNT))
 
 //const severalPhotos = Array.from({length: USER_PHOTOS_COUNT}, photoUser(USER_PHOTOS_COUNT, post)
 
