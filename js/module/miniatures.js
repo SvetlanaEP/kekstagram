@@ -17,3 +17,5 @@ picturesOtherUsers.forEach(({url, likes, comments}) => {
 });
 
 picturesOtherUsersContainers.appendChild(miniaturesListFragment);
+
+export {picturesOtherUsers};

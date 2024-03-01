@@ -91,6 +91,7 @@ function createPosts(POSTS_COUNT) {
     arrayPost[i] = {
       id: sequenceId[i],
       url: 'photos/' + sequenceUrl[i] + '.jpg',
+      ava: 'img/avatar-'+ getRandomPositiveInteger(1,6) + '.svg',
       description: getRandomArrayElement(descriptions),
       likes: getRandomPositiveInteger(15, 200),
       comments: Array.from({length: getRandomPositiveInteger(0, 6)},
