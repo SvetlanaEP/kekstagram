@@ -7,6 +7,10 @@ const btnCloseFullPost = fullPost.querySelector('.big-picture__cancel');
 const openFullPost = function (miniature, posts, picture) {
   miniature.addEventListener('click', () => {
     picture.classList.remove('hidden');
+    picture.querySelector('.big-picture__img').querySelector('img').src = posts.url;
+    picture.querySelector('.social__picture').src = posts.ava;
+    picture.querySelector('.social__caption').textContent = posts.description;
+    picture.querySelector('.likes-count').textContent = posts.likes;
   });
 };
 
