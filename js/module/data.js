@@ -85,14 +85,15 @@ function createPosts(POSTS_COUNT) {
 
   const arrayPost = Array.from({length: POSTS_COUNT})
   const sequenceId = shuffleArray(POSTS_COUNT)
+  const sequenceUrl = shuffleArray(25) //количество всех фотографий пользователей
 
   for (let i=0; i <= arrayPost.length-1; i++) {
     arrayPost[i] = {
       id: sequenceId[i],
-      url: 'photos/' + sequenceId[i] + '.jpg',
+      url: 'photos/' + sequenceUrl[i] + '.jpg',
       description: getRandomArrayElement(descriptions),
       likes: getRandomPositiveInteger(15, 200),
-      comments: Array.from({length: getRandomPositiveInteger(1, 6)},
+      comments: Array.from({length: getRandomPositiveInteger(0, 6)},
         (_, commentIndex) => createComment(commentIndex + 1))
     }
   }
