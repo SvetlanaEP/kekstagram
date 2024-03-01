@@ -1,1 +1,1 @@
-import {createPosts} from "./module/data.js";
+import './module/miniatures.js';
