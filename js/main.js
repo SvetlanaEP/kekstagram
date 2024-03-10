@@ -1,3 +1,3 @@
-import './module/miniatures.js';
-
 import './module/full-post.js';
+
+import './module/form.js'
