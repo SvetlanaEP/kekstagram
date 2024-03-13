@@ -6,7 +6,9 @@ const canselBtn = overlay.querySelector('#upload-cancel');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
 
-const hashtagExample = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/
+const hashtagExample = /^#[A-Za-zА-Яа-яЁё0-9]{0,19}$/
+
+const MAX_HASHTAGS_COUNT = 5;
 
 const pristine = new Pristine(form, {
   classTo: 'img-upload__element',
@@ -59,15 +61,15 @@ function validateTags() {
   if (hashtagField.value === '') {
     return true
   } else {
-    const tagsList = hashtagField.value.split(' ')
+    const tagsList = hashtagField.value.trim().split(' ')
 
     let result
 
     for (let i=0; i<tagsList.length; i++) {
       result = true
 
-      if (!hashtagExample.test(tagsList[i]) || tagsList.length > 5) {
-        //Дописать код для проверки на кол-во хештегов
+      if (!hashtagExample.test(tagsList[i])) {
+
         result = false
         break
       }
@@ -77,10 +79,20 @@ function validateTags() {
   }
 }
 
+function validateTagsCount() {
+  return  hashtagField.value.trim().split(' ').length <= MAX_HASHTAGS_COUNT;
+}
+
+pristine.addValidator(
+  hashtagField,
+  validateTagsCount,
+  'Максимальное количество хештегов - 5!'
+)
+
 pristine.addValidator(
   hashtagField,
   validateTags,
-  'Хештеги введены неправильно')
+  'Введён некорретный хештег!');
 
 function onFormSubmit(evt) {
   evt.preventDefault();
