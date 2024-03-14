@@ -94,7 +94,7 @@ function createPosts(POSTS_COUNT) {
       ava: 'img/avatar-'+ getRandomPositiveInteger(1,6) + '.svg',
       description: getRandomArrayElement(descriptions),
       likes: getRandomPositiveInteger(15, 200),
-      comments: Array.from({length: getRandomPositiveInteger(0, 6)},
+      comments: Array.from({length: getRandomPositiveInteger(0, 10)},
         (_, commentIndex) => createComment(commentIndex + 1))
     }
   }
