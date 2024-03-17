@@ -1,5 +1,5 @@
 import {picturesOtherUsers} from './miniatures.js';
-import {showComments} from "./comments.js";
+import {displayComments, moreCommentsBtn, showMore} from "./comments.js";
 
 const miniaturesList = document.querySelectorAll('.picture');
 const fullPost = document.querySelector('.big-picture');
@@ -16,19 +16,46 @@ function openFullPost(miniature, posts, picture) {
     picture.querySelector('.social__caption').textContent = posts.description;
     picture.querySelector('.likes-count').textContent = posts.likes;
 
-    showComments(picture, posts)
-  });
-}
+    displayComments(picture, posts)
 
-btnCloseFullPost.addEventListener('click', () => {
+ //   const allCom = posts.comment
+    moreCommentsBtn.addEventListener('click', showMore);
+  })
+}
+/*
+function showMore() {
+console.log('кнопка ')
+console.log()
+/*comments.length - endShowComment <= 5 ) {
+   moreCommentsBtn.classList.add('hidden')
+   endShowComment = comments.length
+   indexNextComment = indexNextComment + 5
+ } else {
+   indexNextComment = indexNextComment + 5
+   endShowComment = endShowComment + 5
+ }
+ console.log(indexNextComment, endShowComment)
+const showCommentsList = comments.slice(indexNextComment, endShowComment)
+
+ console.log(showCommentsList)
+
+
+} */
+
+function hideFullPost() {
   fullPost.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
-});
+  moreCommentsBtn.removeEventListener('click', () => {
+    showMore()
+  })
+}
+
+btnCloseFullPost.addEventListener('click', hideFullPost);
 
 document.addEventListener('keydown', (evt) => {
   if (evt.key === 'Escape') {
-    fullPost.classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
+    evt.preventDefault();
+    hideFullPost();
   }
 });
 
