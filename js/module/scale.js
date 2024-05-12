@@ -27,6 +27,18 @@ const onSmallerBtnClick = () => {
   }
 }
 
+const onBiggerBtnClick = () => {
+  const newScale = parseInt(scaleInput.value, 10) + STEP_SCALE;
+
+  if (newScale >= MAX_SCALE) {
+    currentScale(MAX_SCALE)
+  } else {
+    currentScale(newScale)
+  }
+}
+
 smallerBtn.addEventListener('click', onSmallerBtnClick)
+
+biggerBtn.addEventListener('click', onBiggerBtnClick)
 
 export {resetScale}
