@@ -1,3 +1,5 @@
+import {resetScale} from "./scale.js";
+
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
 const overlay = form.querySelector('.img-upload__overlay');
@@ -21,6 +23,7 @@ const pristine = new Pristine(form, {
 
 function showModal () {
   overlay.classList.remove('hidden');
+  resetScale()
   body.classList.add('modal-open');
   document.addEventListener('keydown', onEscKeyDown);
 }
