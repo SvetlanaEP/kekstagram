@@ -1,9 +1,8 @@
 const sliderEffect = document.querySelector('.effect-level__slider');
 const image = document.querySelector('.img-upload__preview img');
 const effectLevel = document.querySelector('.effect-level__value');
+const form = document.querySelector('.img-upload__form')
 
-const effectList = document.querySelector('#effect-chrome')
-console.log(effectList)
 
 const EFFECTS = [
   {
@@ -14,6 +13,7 @@ const EFFECTS = [
   },
   {
     name: 'chrome',
+    style: 'grayscale',
     min: 0,
     max: 1,
     step: 0.1,
@@ -21,6 +21,7 @@ const EFFECTS = [
   },
   {
     name: 'sepia',
+    style: 'sepia',
     min: 0,
     max: 1,
     step: 0.1,
@@ -28,6 +29,7 @@ const EFFECTS = [
   },
   {
     name: 'marvin',
+    style: 'invert',
     min: 0,
     max: 100,
     step: 1,
@@ -35,6 +37,7 @@ const EFFECTS = [
   },
   {
     name: 'phobos',
+    style: 'blur',
     min: 0,
     max: 3,
     step: 0.1,
@@ -42,42 +45,62 @@ const EFFECTS = [
   },
   {
     name: 'heat',
+    style: 'brightness',
     min: 1,
     max: 3,
     step: 0.1,
     unit: ''
   },
-]
+];
+
+const DEFAULT_EFFECTS = EFFECTS[0];
+
+let chosenEffect = DEFAULT_EFFECTS;
+
+const isDefault = () => chosenEffect === DEFAULT_EFFECTS;
+
+const updateSlider = () => {
+  if (isDefault()) {
+    sliderEffect.classList.add('hidden')
+  } else {
+    sliderEffect.classList.remove('hidden')
+    sliderEffect.noUiSlider.updateOptions({
+      range: {
+        min: chosenEffect.min,
+        max: chosenEffect.max,
+      },
+      start: chosenEffect.max,
+      step: chosenEffect.step,
+    })
+  }
+}
+
+const onFormChange = (evt) => {
+  if (evt.target.classList.contains('effects__radio')) {
+    chosenEffect = EFFECTS.find((effect) => effect.name === evt.target.value)
+    updateSlider()
+  }
+}
+
+const onSliderUpdate = () => {
+  if (!isDefault()) {
+    effectLevel.value = sliderEffect.noUiSlider.get()
+    image.style.filter = `${chosenEffect.style}(${effectLevel.value}${chosenEffect.unit}`
+  }
+}
 
 noUiSlider.create(sliderEffect, {
   range: {
-    min: 0,
-    max: 100,
+    min: DEFAULT_EFFECTS.min,
+    max: DEFAULT_EFFECTS.max,
   },
-  start: 80,
-  step: 1,
+  start: DEFAULT_EFFECTS.max,
+  step: DEFAULT_EFFECTS.step,
   connect: 'lower'
 });
+updateSlider();
 
-const upDateSlider = () => {
-  sliderEffect.noUiSlider.on('update', (...rest) => {
-    effectLevel.value = sliderEffect.noUiSlider.get();
-    image.style.filter = `grayscale(${sliderEffect.noUiSlider.get()})`
-  })
-}
-
-const onChrome = () => {
-  sliderEffect.noUiSlider.updateOptions({
-    range: {
-      min: EFFECTS[1].min,
-      max: EFFECTS[1].max,
-    },
-    start: EFFECTS[1].max,
-    step: EFFECTS[1].step
-  })
-  upDateSlider()
-}
-
-effectList.addEventListener('change', onChrome)
+form.addEventListener('change', onFormChange);
+sliderEffect.noUiSlider.on('update', onSliderUpdate)
 
 
