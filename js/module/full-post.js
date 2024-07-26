@@ -1,5 +1,33 @@
-import {picturesOtherUsers} from './miniatures.js';
-import {displayComments, moreCommentsBtn, showMore} from "./comments.js";
+const fullPost = document.querySelector('.big-picture'); //нашла на странице фулл пост
+const btnCloseFullPost = fullPost.querySelector('.big-picture__cancel'); //нашла на странице
+
+const closeFullPost = () => {
+  fullPost.classList.add('hidden')
+}
+
+const openFullPost = (miniature) => {
+  document.querySelector('body').classList.add('modal-open');
+  fullPost.classList.remove('hidden')
+
+
+  btnCloseFullPost.addEventListener('click', () => {
+    closeFullPost()
+  })
+}
+
+document.addEventListener('keydown', (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    closeFullPost();
+  }
+});
+
+
+
+export {openFullPost}
+
+
+/*import {displayComments, moreCommentsBtn, showMore} from "./comments.js";
 
 const miniaturesList = document.querySelectorAll('.picture');
 const fullPost = document.querySelector('.big-picture');
@@ -22,25 +50,10 @@ function openFullPost(miniature, posts, picture) {
     moreCommentsBtn.addEventListener('click', showMore);
   })
 }
-/*
-function showMore() {
-console.log('кнопка ')
-console.log()
-/*comments.length - endShowComment <= 5 ) {
-   moreCommentsBtn.classList.add('hidden')
-   endShowComment = comments.length
-   indexNextComment = indexNextComment + 5
- } else {
-   indexNextComment = indexNextComment + 5
-   endShowComment = endShowComment + 5
- }
- console.log(indexNextComment, endShowComment)
-const showCommentsList = comments.slice(indexNextComment, endShowComment)
-
- console.log(showCommentsList)
 
 
-} */
+
+
 
 function hideFullPost() {
   fullPost.classList.add('hidden');
@@ -62,3 +75,6 @@ document.addEventListener('keydown', (evt) => {
 for (let i=0; i < picturesOtherUsers.length; i++) {
   openFullPost(miniaturesList[i], picturesOtherUsers[i], fullPost);
 }
+
+
+ */
