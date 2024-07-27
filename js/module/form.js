@@ -1,4 +1,5 @@
 import {resetScale} from "./scale.js";
+import {showAlert} from "./util.js";
 
 const body = document.querySelector('body');
 const form = document.querySelector('.img-upload__form');
@@ -97,17 +98,36 @@ pristine.addValidator(
   validateTags,
   'Введён некорретный хештег!');
 
-function onFormSubmit(evt) {
-  evt.preventDefault();
 
-  const isValid = pristine.validate();
-  if (isValid) {
-    console.log('форма норм')
-  } else {
-    console.log('форма не норм')
-  }
+const setUserFormSubmit = (onSuccess) => {
+  form.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    const isValid = pristine.validate();
+    if (isValid) {
+      const formData = new FormData(evt.target)
+
+      fetch('https://25.javascript.htmlacademy.pro/kekstagram',
+        {
+          method: 'POST',
+          body: formData,
+        },
+      )
+        .then((response) => {
+          if (response.ok) {
+            onSuccess()
+          } else {
+            showAlert('Не удалось опубликовать фотографию. Попробуйте ещё раз')
+          }
+        } )
+        .catch(() => {
+          showAlert('Не удалось опубликовать фотографию. Попробуйте ещё раз')
+        })
+    }
+  })
 }
 
 fileField.addEventListener('change', onFileInputChange);
 canselBtn.addEventListener('click', onCancelBtnClick);
-form.addEventListener('submit', onFormSubmit)
+
+export {setUserFormSubmit, showModal, onCancelBtnClick}
