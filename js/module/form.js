@@ -9,6 +9,7 @@ const fileField = form.querySelector('#upload-file');
 const canselBtn = overlay.querySelector('#upload-cancel');
 const hashtagField = form.querySelector('.text__hashtags');
 const commentField = form.querySelector('.text__description');
+const submitButton = form.querySelector('.img-upload__submit')
 
 const hashtagExample = /^#[A-Za-zА-Яа-яЁё0-9]{0,19}$/
 
@@ -20,6 +21,15 @@ const pristine = new Pristine(form, {
   errorTextClass: 'img-upload__error',
 });
 
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Публикую...'
+}
+
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать'
+}
 
 //Функция открытия модального окна
 
@@ -106,9 +116,16 @@ const setUserFormSubmit = (onSuccess) => {
 
     const isValid = pristine.validate();
     if (isValid) {
+      blockSubmitButton()
       sendData(
-        () => onSuccess(),
-        () => showAlert('Не удалось опубликовать изображение. Попробуйте ещё раз.'),
+        () => {
+          onSuccess();
+          unblockSubmitButton();
+        },
+        () => {
+          showAlert('Не удалось опубликовать изображение. Попробуйте ещё раз.');
+          unblockSubmitButton()
+        },
         new FormData(evt.target),
       )
     }
