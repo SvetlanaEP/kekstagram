@@ -1,4 +1,5 @@
 import {resetScale} from "./scale.js";
+import {sendData} from "./api.js";
 import {showAlert} from "./util.js";
 
 const body = document.querySelector('body');
@@ -105,24 +106,11 @@ const setUserFormSubmit = (onSuccess) => {
 
     const isValid = pristine.validate();
     if (isValid) {
-      const formData = new FormData(evt.target)
-
-      fetch('https://25.javascript.htmlacademy.pro/kekstagram',
-        {
-          method: 'POST',
-          body: formData,
-        },
+      sendData(
+        () => onSuccess(),
+        () => showAlert('Не удалось опубликовать изображение. Попробуйте ещё раз.'),
+        new FormData(evt.target),
       )
-        .then((response) => {
-          if (response.ok) {
-            onSuccess()
-          } else {
-            showAlert('Не удалось опубликовать фотографию. Попробуйте ещё раз')
-          }
-        } )
-        .catch(() => {
-          showAlert('Не удалось опубликовать фотографию. Попробуйте ещё раз')
-        })
     }
   })
 }
