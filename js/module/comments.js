@@ -1,6 +1,3 @@
-import {sendData} from "./api.js";
-import {showAlert} from "./util.js";
-
 const fullPost = document.querySelector('.big-picture');
 const moreCommentsBtn =  fullPost.querySelector('.comments-loader');
 const commentsContainer = document.querySelector('.social__comments');
@@ -12,28 +9,26 @@ let showCommentCount = 5
 
 //Отображение блока с комментариями
 
-function displayComments (picture, posts) {
+function displayComments (comments) {
   commentsContainer.querySelectorAll('.social__comment').forEach((comment) => {
     comment.remove();
   });
-  let showCommentsList
+  item = 0
+  let showCommentsList = 0
 
-  const commentsList = posts.comments;
-
-  if (commentsList.length === 0) {
+  if (comments.length === 0) {
     moreCommentsBtn.classList.add('hidden')
-    picture.querySelector('.social__comment-count').textContent = `Комментариев нет`;
+    fullPost.querySelector('.social__comment-count').textContent = `Комментариев нет`;
   } else {
-    if (commentsList.length <= 5 && commentsList.length >= 1) {
+    if (comments.length <= 5 && comments.length >= 1) {    //Если комментариев от 1 до 5
       moreCommentsBtn.classList.add('hidden')
-      picture.querySelector('.social__comment-count').textContent = `${commentsList.length} из ${commentsList.length} комментариев`;
-      showCommentsList = commentsList
+      fullPost.querySelector('.social__comment-count').textContent = `${comments.length} из ${comments.length} комментариев`;
+
+      showCommentsList = comments
     } else {
-        moreCommentsBtn.classList.remove('hidden')
-        picture.querySelector('.social__comment-count').textContent = ` ${showCommentCount} из ${commentsList.length} комментариев`;
-        showCommentsList = commentsList
-        //    showCommentsList = commentsList.slice(indexNextComment, endShowComment)
-        //    const otherComments = commentsList.slice(endShowComment, commentsList.length)
+        moreCommentsBtn.classList.remove('hidden')    // Если комментариев больше 5
+        fullPost.querySelector('.social__comment-count').textContent = ` ${showCommentCount} из ${comments.length} комментариев`;
+        showCommentsList = comments
       }
       const commentsFragment = document.createDocumentFragment();
 
@@ -41,7 +36,6 @@ function displayComments (picture, posts) {
         const commentElement = commentTemplate.cloneNode(true);
         commentElement.querySelector('.social__picture').src = avatar;
         commentElement.querySelector('.social__text').textContent = message;
-        commentElement.classList.add('hidden')
         commentsFragment.appendChild(commentElement);
       })
       commentsContainer.appendChild(commentsFragment);
@@ -49,27 +43,31 @@ function displayComments (picture, posts) {
       const AllComments = commentsContainer.querySelectorAll('.social__comment')
 
       if (AllComments.length > 5) {
-        item = 5
-        for (let i = 0; i < item; i++) {
-          AllComments[i].classList.remove('hidden')
-        }
-      } else {
-        for (let i = 0; i < AllComments.length; i++) {
-          AllComments[i].classList.remove('hidden')
+
+        for (let i = 5; i < AllComments.length; i++) {
+          AllComments[i].classList.add('hidden')
         }
       }
     }
+ moreCommentsBtn.addEventListener('click', () => {
+   showMore()
+   console.log('ghvg')
+  })
 }
 
 function showMore() {
   const AllComments = commentsContainer.querySelectorAll('.social__comment')
+
   const openCommentsCount = fullPost.querySelector('.social__comment-count')
 
-  if (AllComments.length - item > item) {
-    item += 5
-    for (let i = 0; i < item; i++) {
+  let item2 = 0
+
+  if (AllComments.length - 5 > 5) {
+
+    for (let i = 5; i < item2 + 5; i++) {
       AllComments[i].classList.remove('hidden')
     }
+    item += showCommentCount
 
   } else {
     item = AllComments.length
@@ -82,4 +80,4 @@ function showMore() {
   openCommentsCount.textContent = ` ${item} из ${AllComments.length} комментариев`;
 }
 
-export {displayComments, moreCommentsBtn, showMore};
+export {displayComments, moreCommentsBtn};

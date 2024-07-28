@@ -1,4 +1,6 @@
 import {openFullPost} from "./full-post.js";
+import {displayComments} from "./comments.js";
+//import {showMore} from "./comments.js";
 
 const picturesOtherUsersContainers = document.querySelector('.pictures');
 const miniatureTemplate = document.querySelector('#picture').content.querySelector('.picture');
@@ -15,8 +17,10 @@ const rendersPicturesList = (picturesOtherUsers) => {
     miniatureElement.querySelector('.picture__comments').textContent = comments.length;
     miniaturesListFragment.appendChild(miniatureElement);
 
+
     miniatureElement.addEventListener('click', () => {
       openFullPost(miniatureElement)
+      displayComments(comments)
     })
 
     picturesOtherUsersContainers.appendChild(miniaturesListFragment);
