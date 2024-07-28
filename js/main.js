@@ -8,4 +8,4 @@ import '../nouislider/nouislider.js'
 
 import './module/effect.js'
 
-import './module/fetch.js'
+import './module/api.js'
