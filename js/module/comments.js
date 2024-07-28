@@ -1,3 +1,6 @@
+import {sendData} from "./api.js";
+import {showAlert} from "./util.js";
+
 const fullPost = document.querySelector('.big-picture');
 const moreCommentsBtn =  fullPost.querySelector('.comments-loader');
 const commentsContainer = document.querySelector('.social__comments');
