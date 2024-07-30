@@ -51,33 +51,36 @@ function displayComments (comments) {
     }
  moreCommentsBtn.addEventListener('click', () => {
    showMore()
-   console.log('ghvg')
   })
 }
 
+
+// Кнопка показать больше
+
 function showMore() {
-  const AllComments = commentsContainer.querySelectorAll('.social__comment')
+  const hiddenComments = commentsContainer.querySelectorAll('.social__comments .hidden')
+  const allComments = commentsContainer.querySelectorAll('.social__comment')
+
+  const openComments = allComments.length - hiddenComments.length
 
   const openCommentsCount = fullPost.querySelector('.social__comment-count')
 
-  let item2 = 0
+  console.log(hiddenComments.length)
 
-  if (AllComments.length - 5 > 5) {
+  if (hiddenComments.length > 5) {
 
-    for (let i = 5; i < item2 + 5; i++) {
-      AllComments[i].classList.remove('hidden')
+    for (let i = 0; i < 5; i++) {
+      hiddenComments[i].classList.remove('hidden')
     }
-    item += showCommentCount
-
+    openCommentsCount.textContent = ` ${openComments + 5} из ${allComments.length} комментариев`;
   } else {
-    item = AllComments.length
-    for (let i = 0; i < item; i++) {
-      AllComments[i].classList.remove('hidden')
+
+    for (let i = 0; i < hiddenComments.length; i++) {
+      hiddenComments[i].classList.remove('hidden')
     }
-    item = AllComments.length
     moreCommentsBtn.classList.add('hidden')
+    openCommentsCount.textContent = ` ${allComments.length} из ${allComments.length} комментариев`;
   }
-  openCommentsCount.textContent = ` ${item} из ${AllComments.length} комментариев`;
 }
 
 export {displayComments, moreCommentsBtn};
